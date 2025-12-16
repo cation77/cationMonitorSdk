@@ -1,7 +1,7 @@
 import { monitorJavaScriptErrors } from './errorHandler';
 import { monitorResourceErrors } from './resourceMonitor';
 import { monitorNetworkErrors } from './networkMonitor';
-import senderWorker from './sender.worker.ts?worker';
+import senderWorker from './sender.worker';
 import { formatErrorMessage } from './utils';
 import { sendMonitorData } from './sender';
 

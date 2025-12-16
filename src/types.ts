@@ -45,4 +45,10 @@ export interface ReactError extends BaseError {
 
 export type MonitorData = JSError | PromiseError | ResourceError | NetworkError | VueError | ReactError;
 
-export type WorkerCommand = { type: 'set'; errorData: BaseError[] } | { type: 'start'; reportUrl: string };
+export type WorkerCommand = { type: 'init'; reportUrl: string } | { type: 'report'; reportData: MonitorData[] };
+
+export type DBEnv = {
+  db: IDBDatabase | null;
+  dbName: string;
+  storeName: string;
+};
