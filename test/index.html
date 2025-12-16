@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="../dist/index.umd.js"></script>
-</head>
-<body>
-  <div id="box">
-    <button id="error-btn">Throw JS Error</button>
-    <button id="promise-btn">Throw Promise Error</button>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../dist/index.umd.js"></script>
+  </head>
+  <body>
+    <div id="box">
+      <button id="error-btn">Throw JS Error</button>
+      <button id="promise-btn">Throw Promise Error</button>
+    </div>
 
-  <script>
-    ErrorMonitor.initErrorMonitor({
-    reportUrl: 'http://127.0.0.1:3000/error-report',
-    projectName: 'MyAwesomeProject',
-    environment: 'production',
-  });
-  </script>
-  <script>
-    const box = document.getElementById("box");
-    const errorBtn = document.getElementById("error-btn");
-    const promiseBtn = document.getElementById("promise-btn");
+    <script>
+      CationMonitor.initMonitor({
+        reportUrl: 'http://127.0.0.1:3000/error-report',
+        projectName: 'MyAwesomeProject',
+        environment: 'production'
+      });
+    </script>
+    <script>
+      const box = document.getElementById('box');
+      const errorBtn = document.getElementById('error-btn');
+      const promiseBtn = document.getElementById('promise-btn');
+      const age = 12;
 
-    errorBtn.addEventListener("click", () => {
-      throw new Error("Test Error");
-    });
+      errorBtn.addEventListener('click', () => {
+        throw new Error('Test Error');
+      });
 
-    promiseBtn.addEventListener("click", () => {
-      Promise.reject(new Error("Test Promise Error"));
-    });
-  </script>
-</body>
+      promiseBtn.addEventListener('click', () => {
+        age = 15;
+        Promise.reject(new Error('Test Promise Error'));
+      });
+    </script>
+  </body>
 </html>

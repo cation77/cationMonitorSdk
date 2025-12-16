@@ -1,38 +1,32 @@
-import { sendErrorData } from "./sender";
+import { sendMonitorData } from './sender';
 
-export const monitorNetworkErrors = (
-  reportUrl: string,
-  projectName: string,
-  environment: string
-) => {
+export const monitorNetworkErrors = (reportUrl: string, projectName: string, environment: string) => {
   // 捕获网络请求错误
   const originalXhrOpen = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function (
-    method: string,
-    url: string | URL,
-    ...args: any[]
-  ) {
-    const urlStr = typeof url === "string" ? url : url.toString();
+  XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...args: any[]) {
+    const urlStr = typeof url === 'string' ? url : url.toString();
     if (urlStr.indexOf(reportUrl) !== -1) {
       // 过滤掉上报接口的请求
+      // @ts-ignore
       return originalXhrOpen.call(this, method, url, ...args);
     }
 
     // 监听 error 事件
-    this.addEventListener("error", () => {
-      sendErrorData(
+    this.addEventListener('error', () => {
+      sendMonitorData(
         {
-          type: "Network Error",
+          type: 'Network Error',
           message: `Request failed: ${method} ${url}`,
           url: urlStr,
           projectName,
           environment,
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString()
         },
         reportUrl
       );
     });
 
+    // @ts-ignore
     return originalXhrOpen.call(this, method, url, ...args);
   };
 
@@ -47,14 +41,14 @@ export const monitorNetworkErrors = (
     try {
       const response = await originalFetch(input, init);
       if (!response.ok) {
-        sendErrorData(
+        sendMonitorData(
           {
-            type: "Fetch Error",
+            type: 'Fetch Error',
             message: `HTTP ${response.status} ${response.statusText}`,
             url: urlStr,
             projectName,
             environment,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
           },
           reportUrl
         );
@@ -62,14 +56,14 @@ export const monitorNetworkErrors = (
       return response;
     } catch (error) {
       // 网络故障等无法发出请求的情况
-      sendErrorData(
+      sendMonitorData(
         {
-          type: "Fetch Error",
+          type: 'Fetch Error',
           message: `Fetch failed: ${input}`,
           url: urlStr,
           projectName,
           environment,
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString()
         },
         reportUrl
       );
