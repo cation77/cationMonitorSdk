@@ -1,7 +1,6 @@
 import { monitorJavaScriptErrors } from './errorHandler';
 import { monitorResourceErrors } from './resourceMonitor';
 import { monitorNetworkErrors } from './networkMonitor';
-import senderWorker from './sender.worker';
 import { formatErrorMessage } from './utils';
 import { sendMonitorData } from './sender';
 
@@ -13,12 +12,15 @@ interface ErrorMonitorConfig {
 
 let $monitorInitialized = false;
 
-// 创建 Worker 实例
-const worker = new senderWorker();
+// 创建 Worker 实例（仅在浏览器环境）
+const worker =
+  typeof window !== 'undefined'
+    ? new Worker(new URL('./sender.worker.js', import.meta.url), { type: 'module' })
+    : null;
 
 export const initMonitor = (config: ErrorMonitorConfig) => {
   const { reportUrl, projectName, environment } = config;
-  worker.postMessage({ type: 'start', reportUrl });
+  worker?.postMessage({ type: 'init', reportUrl });
   monitorJavaScriptErrors(reportUrl, projectName, environment);
   monitorResourceErrors(reportUrl, projectName, environment);
   monitorNetworkErrors(reportUrl, projectName, environment);

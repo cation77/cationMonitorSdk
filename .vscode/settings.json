@@ -12,5 +12,6 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/.git": true
-  }
+  },
+  "liveServer.settings.port": 5500
 }
