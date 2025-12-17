@@ -8,7 +8,7 @@ const env: DBEnv = {
   storeName: 'monitor-store'
 };
 
-let $timer = null;
+let $timer: number | null = null;
 let reportUrl = '';
 
 // 发送所有数据并清空存储
@@ -22,6 +22,9 @@ const sendAllData = async () => {
 };
 
 const loop = async () => {
+  if ($timer) {
+    clearTimeout($timer);
+  }
   await sendAllData();
   $timer = setTimeout(() => {
     loop();
@@ -41,7 +44,7 @@ self.onmessage = async (e: MessageEvent<WorkerCommand>) => {
     // 检查数据数量，超过 10 条时直接发送
     const count = await countStore(env.db!, env.storeName);
     if (count >= 10) {
-      await sendAllData();
+      await loop();
     }
   }
 };
