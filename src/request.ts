@@ -1,6 +1,6 @@
 import type { MonitorData } from './types';
 
-export default function request(data: MonitorData, url: string) {
+export default function request(data: MonitorData | MonitorData[], url: string) {
   console.log('request', data, url);
   if (navigator.sendBeacon) {
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
