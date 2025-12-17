@@ -4,6 +4,9 @@ import { monitorNetworkErrors } from './networkMonitor';
 import { formatErrorMessage } from './utils';
 import { sendMonitorData } from './sender';
 
+// 创建 Worker 实例（仅在浏览器环境）
+const worker = new Worker(new URL('./sender.worker.js', import.meta.url), { type: 'module' });
+
 interface ErrorMonitorConfig {
   reportUrl: string;
   projectName: string;
@@ -11,12 +14,6 @@ interface ErrorMonitorConfig {
 }
 
 let $monitorInitialized = false;
-
-// 创建 Worker 实例（仅在浏览器环境）
-const worker =
-  typeof window !== 'undefined'
-    ? new Worker(new URL('./sender.worker.js', import.meta.url), { type: 'module' })
-    : null;
 
 export const initMonitor = (config: ErrorMonitorConfig) => {
   const { reportUrl, projectName, environment } = config;

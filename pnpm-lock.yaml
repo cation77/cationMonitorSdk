@@ -23,9 +23,6 @@ importers:
       rollup:
         specifier: ^4.53.3
         version: 4.53.3
-      rollup-plugin-web-worker-loader:
-        specifier: ^1.7.0
-        version: 1.7.0(rollup@4.53.3)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -297,11 +294,6 @@ packages:
     engines: {node: '>= 0.4'}
     hasBin: true
 
-  rollup-plugin-web-worker-loader@1.7.0:
-    resolution: {integrity: sha512-msfN4FpdoTtfSCbeTZ8yPYmfi2/66Q53gQGmvOrEz/UfqZgCkSkGjaxsZt7TQ1V0s0tLJAe6HL+EdA7IBaUF6w==}
-    peerDependencies:
-      rollup: ^1.9.2 || ^2.0.0 || ^3.0.0 || ^4.0.0
-
   rollup@4.53.3:
     resolution: {integrity: sha512-w8GmOxZfBmKknvdXU1sdM9NHcoQejwF/4mNgj2JuEEdRaHwwF12K7e9eXn1nLZ07ad+du76mkVsyeb2rKGllsA==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -530,10 +522,6 @@ snapshots:
       is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-
-  rollup-plugin-web-worker-loader@1.7.0(rollup@4.53.3):
-    dependencies:
-      rollup: 4.53.3
 
   rollup@4.53.3:
     dependencies:
