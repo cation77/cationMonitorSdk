@@ -32,7 +32,7 @@ export default [
     ],
     treeshake: true
   },
-  // CJS 输出（主入口）
+  // CJS 输出 - 主入口
   {
     input: 'src/index.ts',
     output: {
@@ -50,13 +50,50 @@ export default [
     ],
     treeshake: true
   },
-  // UMD 输出（主入口）
+  // CJS 输出 - Worker
+  {
+    input: 'src/sender.worker.ts',
+    output: {
+      file: 'dist/sender.worker.cjs.js',
+      format: 'cjs',
+      sourcemap: true,
+      exports: 'named'
+    },
+    plugins: [
+      ...basePlugins,
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: false
+      })
+    ],
+    treeshake: true
+  },
+  // UMD 输出 - 主入口
   {
     input: 'src/index.ts',
     output: {
       file: 'dist/index.umd.js',
       format: 'umd',
       name: 'CationMonitor',
+      sourcemap: true
+    },
+    plugins: [
+      ...basePlugins,
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: false
+      }),
+      terser()
+    ],
+    treeshake: true
+  },
+  // UMD 输出 - Worker
+  {
+    input: 'src/sender.worker.ts',
+    output: {
+      file: 'dist/sender.worker.umd.js',
+      format: 'umd',
+      name: 'SenderWorker',
       sourcemap: true
     },
     plugins: [
