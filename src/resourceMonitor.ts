@@ -19,7 +19,7 @@ export const monitorResourceErrors = (reportUrl: string, projectName: string, en
             outerHTML: target.outerHTML,
             projectName,
             environment,
-            timestamp: new Date().toISOString()
+            timestamp: Date.now()
           },
           reportUrl
         );

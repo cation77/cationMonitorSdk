@@ -22,7 +22,7 @@ export function clearStore(db: IDBDatabase, store: string) {
   });
 }
 
-export function putStore(db: IDBDatabase, store: string, key: string, buf: any) {
+export function putStore(db: IDBDatabase, store: string, key: number, buf: any) {
   return new Promise((resolve, reject) => {
     const tx = db.transaction(store, 'readwrite');
     tx.objectStore(store).put(buf, key);

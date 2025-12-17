@@ -20,7 +20,7 @@ export const monitorNetworkErrors = (reportUrl: string, projectName: string, env
           url: urlStr,
           projectName,
           environment,
-          timestamp: new Date().toISOString()
+          timestamp: Date.now()
         },
         reportUrl
       );
@@ -48,7 +48,7 @@ export const monitorNetworkErrors = (reportUrl: string, projectName: string, env
             url: urlStr,
             projectName,
             environment,
-            timestamp: new Date().toISOString()
+            timestamp: Date.now()
           },
           reportUrl
         );
@@ -63,7 +63,7 @@ export const monitorNetworkErrors = (reportUrl: string, projectName: string, env
           url: urlStr,
           projectName,
           environment,
-          timestamp: new Date().toISOString()
+          timestamp: Date.now()
         },
         reportUrl
       );

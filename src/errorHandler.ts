@@ -14,7 +14,7 @@ export const monitorJavaScriptErrors = (reportUrl: string, projectName: string, 
         stack: error ? error.stack : null,
         projectName,
         environment,
-        timestamp: new Date().toISOString()
+        timestamp: Date.now()
       },
       reportUrl
     );
@@ -35,7 +35,7 @@ export const monitorJavaScriptErrors = (reportUrl: string, projectName: string, 
         stack: event.reason?.stack || null,
         projectName,
         environment,
-        timestamp: new Date().toISOString()
+        timestamp: Date.now()
       },
       reportUrl
     );

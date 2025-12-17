@@ -2,7 +2,7 @@ export interface BaseError {
   message: string;
   projectName: string;
   environment: string;
-  timestamp: string;
+  timestamp: number;
 }
 
 export interface JSError extends BaseError {
@@ -45,7 +45,7 @@ export interface ReactError extends BaseError {
 
 export type MonitorData = JSError | PromiseError | ResourceError | NetworkError | VueError | ReactError;
 
-export type WorkerCommand = { type: 'init'; reportUrl: string } | { type: 'report'; reportData: MonitorData[] };
+export type WorkerCommand = { type: 'init'; reportUrl: string } | { type: 'report'; reportData: MonitorData };
 
 export type DBEnv = {
   db: IDBDatabase | null;

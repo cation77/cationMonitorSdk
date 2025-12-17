@@ -1,5 +1,6 @@
 import { openDB, putStore, getStore } from './db';
-import type { DBEnv, WorkerCommand } from './types';
+import request from './request';
+import type { DBEnv, MonitorData, WorkerCommand } from './types';
 
 const env: DBEnv = {
   db: null,
@@ -13,6 +14,7 @@ let reportUrl = '';
 const loop = async () => {
   const res = await getStore(env.db!, env.storeName, reportUrl);
   console.log('worker loop db--->', res);
+  request(res as MonitorData, reportUrl);
   $timer = setTimeout(() => {
     loop();
   }, 10000);
@@ -27,7 +29,8 @@ self.onmessage = async (e: MessageEvent<WorkerCommand>) => {
     loop();
   } else if (type === 'report') {
     const { reportData } = e.data;
-    putStore(env.db!, env.storeName, reportUrl, reportData);
+    console.log('worker reportData', reportData);
+    putStore(env.db!, env.storeName, reportData.timestamp, reportData);
   }
 };
 

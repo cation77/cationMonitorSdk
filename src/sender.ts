@@ -1,21 +1,16 @@
 import { getBrowserInfo } from './utils';
 import { MonitorData } from './types';
-export const sendMonitorData = (errorData: MonitorData, url: string) => {
-  const dataToSend = {
-    ...errorData,
+import worker from './worker';
+import request from './request';
+export const sendMonitorData = (data: MonitorData, url: string) => {
+  const reportData = {
+    ...data,
     // 获取浏览器信息并合并到错误数据中
     browserInfo: getBrowserInfo()
   };
-  if (navigator.sendBeacon) {
-    const blob = new Blob([JSON.stringify(dataToSend)], { type: 'application/json' });
-    navigator.sendBeacon(url, blob);
+  if (!worker) {
+    request(reportData, url);
   } else {
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataToSend)
-    }).catch(console.error);
+    worker?.postMessage({ type: 'report', reportData });
   }
 };

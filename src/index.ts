@@ -3,9 +3,7 @@ import { monitorResourceErrors } from './resourceMonitor';
 import { monitorNetworkErrors } from './networkMonitor';
 import { formatErrorMessage } from './utils';
 import { sendMonitorData } from './sender';
-
-// 创建 Worker 实例（仅在浏览器环境）
-const worker = new Worker(new URL('./sender.worker.js', import.meta.url), { type: 'module' });
+import worker from './worker';
 
 interface ErrorMonitorConfig {
   reportUrl: string;
@@ -46,7 +44,7 @@ export const VueMonitorPlugin = {
           info,
           projectName: options.projectName,
           environment: options.environment,
-          timestamp: new Date().toISOString()
+          timestamp: Date.now()
         },
         options.reportUrl
       );
@@ -86,7 +84,7 @@ export const createReactMonitorBoundary = (React: any, config: ErrorMonitorConfi
           componentStack: info?.componentStack || null,
           projectName: config.projectName,
           environment: config.environment,
-          timestamp: new Date().toISOString()
+          timestamp: Date.now()
         },
         config.reportUrl
       );
